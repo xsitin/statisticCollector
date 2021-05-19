@@ -36,7 +36,7 @@ async def getUsers():
                 and not answer["occupation"]['id'] is None:
             users.append(
                 User(answer['id'], answer["occupation"]['id'],
-                     answer["occupation"]['name']))
+                     answer["occupation"]['name'], True))
     await api.close()
     return users
 
