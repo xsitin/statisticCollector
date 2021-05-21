@@ -7,6 +7,7 @@ from vkwave_api import API
 
 from user import User
 from company import Company
+import Visualization
 
 config = configparser.ConfigParser()
 config.read("settings.ini")
@@ -117,9 +118,11 @@ if __name__ == "__main__":
     task = loop.create_task(group_users(users))
     loop.run_until_complete(task)
     groups = task.result()
-    for group in groups:
-        print(group.company_name, end=" : ")
-        print(len(groups[group]))
+
+    Visualization.Visualize(groups)
+    #for group in groups:
+    #    print(group.company_name, end=" : ")
+    #    print(len(groups[group]))
     #print(task.result())
     #print(len(task.result()))
 
