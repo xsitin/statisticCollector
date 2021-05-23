@@ -11,10 +11,6 @@ import Visualization
 
 filter_words = ['ооо', "гк", "оао", "оа", "зао", "пф", "ао", "окб", "скб"]
 
-translit = {'a': 'а', 'b': 'б', 'c': 'ц', 'd': 'д', 'e': 'е', 'f': 'ф', 'g': 'г', 'h': 'х', 'i': 'и',
-            'j': 'й', 'k': 'к', 'l': 'л', 'm': 'м', 'n': 'н', 'o': 'о', 'p': 'п', 'q': 'ю', 'r': 'р',
-            's': 'с', 't': 'е', 'u': 'у', 'v': 'в', 'w': 'ш', 'x': 'кс', 'y': 'я', 'z': 'з'}
-
 
 def normalize_name(name: str):
     name = name.lower()
@@ -22,9 +18,7 @@ def normalize_name(name: str):
         name = re.sub(r"^|\W" + filter_word + r"\W", " ", name)
     new_name = ""
     for c in name:
-        if c in translit:
-            new_name += translit[c]
-        elif c.isalpha():
+        if c.isalpha():
             new_name += c
     return new_name
 
@@ -105,6 +99,9 @@ class VKGroupUsersCollector:
                     groups[user.group_id] = user.group_name
             if len(groups) == 0:
                 company = Company(jobs[job][0].group_name, None)
+            elif len(groups) == 1:
+                group = groups.popitem()
+                company = Company(group[1], group[0])
             else:
                 group_id = await get_biggest_group(groups, vk)
                 if group_id in groups:

@@ -3,16 +3,21 @@ import pandas as pd
 
 
 def Visualize(dictionary):
+    companies = []
+    for e in dictionary:
+        companies.append([-len(dictionary[e]), e.company_name])
+    companies.sort()
     indexes = []
     values = []
+    take_first = 30
+    for i in range(take_first):
+        indexes.append(companies[i][1])
+        values.append(-companies[i][0])
+    other_count = 0
+    for i in range(take_first, len(companies)):
+        other_count += -companies[i][0]
     indexes.append("Другие")
-    values.append(0)
-    for e in dictionary:
-        if len(dictionary[e]) < 4:
-            values[0] += len(dictionary[e])
-        else:
-            indexes.append(e.company_name)
-            values.append(len(dictionary[e]))
+    values.append(other_count)
     data = pd.Series(values, index=indexes)
     fig = go.Figure()
     fig.add_trace(go.Pie(values=data, labels=data.index, hole=0.7))
