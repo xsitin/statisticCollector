@@ -9,7 +9,7 @@ def Visualize(dictionary):
     companies.sort()
     indexes = []
     values = []
-    take_first = 30
+    take_first = min(30, len(companies))
     for i in range(take_first):
         indexes.append(companies[i][1])
         values.append(-companies[i][0])
