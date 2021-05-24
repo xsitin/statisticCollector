@@ -80,6 +80,14 @@ class VKGroupUsersCollector:
         await api.close()
         return users
 
+    async def get_group_name(self):
+        api = API(self.service_key)
+        vk = api.get_api()
+        group_name = (await vk.groups.get_by_id(group_id=self.group_id, fields="name")).response.pop().dict()[
+            "name"]
+        await api.close()
+        return group_name
+
     async def group_users_by_company(self, users: list[User]):
         """Returns grouped users by their company in dict[Company, list[User]]"""
         jobs = {}

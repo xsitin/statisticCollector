@@ -1,7 +1,7 @@
 import sys
 
 import asyncio
-
+from make_csv_statistic import make_statistic
 from get_users import VKGroupUsersCollector
 import Visualization
 
@@ -24,7 +24,10 @@ if __name__ == "__main__":
     else:
         collector = VKGroupUsersCollector(sys.argv[1], sys.argv[2])
     loop = asyncio.get_event_loop()
-    task = loop.create_task(collector.get_companies_with_users())
-    loop.run_until_complete(task)
-    data = task.result()
-    Visualization.Visualize(data)
+    get_groups_task = loop.create_task(collector.get_companies_with_users())
+    get_group_name_task = loop.create_task(collector.get_group_name())
+    loop.run_until_complete(get_groups_task)
+    loop.run_until_complete(get_group_name_task)
+    data = get_groups_task.result()
+    make_statistic(data)
+    Visualization.Visualize(data, get_group_name_task.result())

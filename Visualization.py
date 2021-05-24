@@ -2,7 +2,7 @@ import plotly.graph_objs as go
 import pandas as pd
 
 
-def Visualize(dictionary):
+def Visualize(dictionary,group_name):
     companies = []
     for e in dictionary:
         companies.append([-len(dictionary[e]), e.company_name])
@@ -21,5 +21,5 @@ def Visualize(dictionary):
     data = pd.Series(values, index=indexes)
     fig = go.Figure()
     fig.add_trace(go.Pie(values=data, labels=data.index, hole=0.7))
-    fig.update_layout(annotations=[dict(text='Работодатели<br>матмеха', x=0.5, y=0.5, font_size=40, showarrow=False)])
+    fig.update_layout(annotations=[dict(text='Работодатели<br>'+group_name, x=0.5, y=0.5, font_size=40, showarrow=False)])
     fig.show()
